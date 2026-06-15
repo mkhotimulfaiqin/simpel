@@ -1,0 +1,28 @@
+<?php
+
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SuratController;
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+// Route::get('/surat', [SuratController::class, 'daftarSurat']);
+Route::resource('surat', SuratController::class );
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login',[AuthController::class,'showLogin'])->name('login');
+    Route::post('/plogin',[AuthController::class,'processLogin'])->name('login.auth');
+    Route::get('/register',[AuthController::class,'showRegister'])->name('register');
+    Route::post('/register',[AuthController::class,'storeRegister'])->name('register.store');
+    
+}); 
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::resource('surat', SuratController::class);
+    Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
+    
+});
