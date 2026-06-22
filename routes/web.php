@@ -26,3 +26,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
     
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/surat/{id}/cetak', [SuratController::class, 'cetakPdf'])->name('surat.cetak');
+
+    Route::resource('surat', SuratController::class);
+});
